@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+    <% include partials/page/head.ejs %>
+
+    <body class = "fixed-header" ng-app="sampleApp" ng-controller="SampleCtrl" ng-cloak>
+
+        <% include partials/page/header.ejs %>
+
+        <% include partials/page/search.ejs %>
+
+        <div id = "wrapper">
+            <section class="elements">
+                <div class="container">
+                    <h3>Spice Real Time Tracker</h3>
+                    <p>Conveniently check up on your spice status anytime and anywhere</p>
+                    <div class="row margin-top-40">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin-bottom-sm-30" ng-repeat ="obj in getSpice(spice)" ng-if="obj.picture != 'AddSpice'">
+                            <div class="card card-game card-primary">
+                                <div class="card-header"></i>{{obj.name}}</div>
+                                <div class="card-img" style="background-color: #ecf0f1">
+                                    <img src="/Images/{{obj.picture}}.png" style="padding: 10px; width: 200px; height: 200px;display: block; margin: auto"alt="">
+                                </div>
+                                <div class="caption">
+                                    <p><strong>Remaining Spices</strong></p>
+                                    <p>{{getPhrase(obj)}}</p>
+                                    <p class="progress-label">Percentage<span>{{getPercentText(obj)}}%</span></p>
+                                    <div class="progress progress-animation progress-xs">
+                                        <div class="progress-bar progress-bar-success" aria-valuenow="{{getPercent(obj)}}" aria-valuemin="0" aria-valuemax="100" ng-style = "{{getStyle(obj)}}"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+        <!-- /#wrapper -->
+
+        <% include partials/page/footer.ejs %>
+
+        <% include partials/page/script.ejs %>
+
+    </body>
+</html>

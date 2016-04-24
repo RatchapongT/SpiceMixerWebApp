@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+    <% include ../partials/page/head.ejs %>
+    <script src = "/angular/angular-other-problems.js"></script>
+
+    <body class = "fixed-header" ng-app = "myOtherProblemsApp" ng-controller = "otherProblemsControllers" ng-cloak>
+        <% include ../partials/page/header.ejs %>
+
+        <% include ../partials/page/search.ejs %>
+
+        <div id = "wrapper">
+
+            <section class = "border-bottom-1 border-grey-300 padding-top-10 padding-bottom-10">
+                <div class = "container">
+                    <div class = "row">
+                        <div class = "col-lg-12">
+                            <ol class = "breadcrumb">
+                                <li><a href = "/">Home</a></li>
+                                <li><a href = "active">Other Problems</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class = "elements">
+                <div class = "container">
+                    <h3>Other Algorithm Problems</h3>
+
+                    <div class = "row">
+                        <div class = "col-lg-9">
+                            <div class = "panel panel-default">
+                                <div class = "panel-body">
+
+                                    <div class = "form-group input-icon-left" ng-show = "!loading_table">
+                                        <i class = "fa fa-search"></i>
+                                        <input type = "text" class = "form-control" placeholder = "Search" ng-model = "search_problems">
+                                    </div>
+
+
+                                    <table class = "table table-hover" ng-show = "!loading_table">
+                                        <div class = "other-problems-loading" align = "center" ng-show = "loading_table">
+                                            <i class = "fa fa-spinner fa-pulse"></i>
+                                        </div>
+                                        <thead>
+                                            <tr>
+                                                <th class = "leecode-header-center hidden-xs">
+                                                    <a ng-click = "sortType = 'complete'; sortReverse = !sortReverse" style = "cursor: hand; cursor: pointer">
+                                                        Sol.
+                                                        <span ng-show = "sortType == 'complete' && !sortReverse" class = "fa fa-caret-down"></span>
+                                                        <span ng-show = "sortType == 'complete' && sortReverse" class = "fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+
+                                                <th class = "leecode-header-left hidden-xs">
+
+                                                    <a ng-click = "sortType = 'title'; sortReverse = !sortReverse" style = "cursor: hand; cursor: pointer">
+                                                        Title
+                                                        <span ng-show = "sortType == 'title' && !sortReverse" class = "fa fa-caret-down"></span>
+                                                        <span ng-show = "sortType == 'title' && sortReverse" class = "fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat = "problem in problems_list | orderBy:sortType:sortReverse | filter:search_problems">
+
+                                                <td align = "center">
+                                                    <i class = "complete fa fa-check"></i>
+                                                </td>
+                                                <td>
+                                                    </b>
+                                                    <a href = '{{formatLink(problem.href)}}'>{{problem.title}}</a>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <!-- /#wrapper -->
+
+        <% include ../partials/page/footer.ejs %>
+
+        <% include ../partials/page/script.ejs %>
+
+    </body>
+</html>

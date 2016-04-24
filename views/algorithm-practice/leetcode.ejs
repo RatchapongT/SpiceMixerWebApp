@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+    <% include ../partials/page/head.ejs %>
+    <script src = "/angular/angular-leetcode.js"></script>
+
+    <body class = "fixed-header" ng-app = "myLeetcodeApp" ng-controller = "leetcodeControllers" ng-cloak>
+        <% include ../partials/page/header.ejs %>
+
+        <% include ../partials/page/search.ejs %>
+
+        <div id = "wrapper">
+
+            <section class = "border-bottom-1 border-grey-300 padding-top-10 padding-bottom-10">
+                <div class = "container">
+                    <div class = "row">
+                        <div class = "col-lg-12">
+                            <ol class = "breadcrumb">
+                                <li><a href = "/">Home</a></li>
+                                <li><a href = "active">Leetcode</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class = "elements">
+                <div class = "container">
+                    <h3>Leetcode Algorithm Problems</h3>
+
+                    <div class = "row">
+                        <div class = "col-lg-9">
+                            <div class = "panel panel-default">
+                                <div class = "panel-body">
+                                    <p class = "progress-label">Easy Problems
+                                        <span ng-show = "!loading_table">{{easyComplete}}/{{easyProblems}}</span>
+                                    </p>
+                                    <div class = "progress progress-animation progress-xs">
+                                        <div class = "progress-bar progress-bar-success" aria-valuenow = "{{easyPercent}}" aria-valuemin = "0" aria-valuemax = "100" ng-style = "{width : ( easyPercent + '%' ) }"></div>
+                                    </div>
+
+                                    <p class = "progress-label">Medium Problems
+                                        <span ng-show = "!loading_table">{{mediumComplete}}/{{mediumProblems}}</span>
+                                    </p>
+                                    <div class = "progress progress-animation progress-xs">
+                                        <div class = "progress-bar progress-bar-warning" aria-valuenow = "{{mediumPercent}}" aria-valuemin = "0" aria-valuemax = "100" ng-style = "{width : ( mediumPercent + '%' ) }"></div>
+                                    </div>
+
+                                    <p class = "progress-label">Hard Problems
+                                        <span ng-show = "!loading_table">{{hardComplete}}/{{hardProblems}}</span>
+                                    </p>
+                                    <div class = "progress progress-animation progress-xs">
+                                        <div class = "progress-bar progress-bar-danger" aria-valuenow = "{{hardPercent}}" aria-valuemin = "0" aria-valuemax = "100" ng-style = "{width : ( hardPercent + '%' ) }"></div>
+                                    </div>
+
+                                    <p class = "progress-label">Overall Completion
+                                        <span ng-show = "!loading_table">{{completeCount}}/{{problems_list.length}}</span>
+                                    </p>
+                                    <div class = "progress progress-animation progress-xs">
+                                        <div class = "progress-bar progress-bar-general" aria-valuenow = "{{completePercent}}" aria-valuemin = "0" aria-valuemax = "100" ng-style = "{width : ( completePercent + '%' ) }"></div>
+                                    </div>
+
+                                    <div class = "form-group input-icon-left" ng-show = "!loading_table">
+                                        <i class = "fa fa-search"></i>
+                                        <input type = "text" class = "form-control" placeholder = "Search" ng-model = "search_problems">
+                                    </div>
+
+
+                                    <table class = "table table-hover" ng-show = "!loading_table">
+                                        <div class = "leetcode-loading" align = "center" ng-show = "loading_table">
+                                            <i class = "fa fa-spinner fa-pulse"></i>
+                                        </div>
+                                        <thead>
+                                            <tr>
+                                                <th class = "leecode-header-center hidden-xs">
+                                                    <a ng-click = "sortType = 'complete'; sortReverse = !sortReverse" style = "cursor: hand; cursor: pointer">
+                                                        Sol.
+                                                        <span ng-show = "sortType == 'complete' && !sortReverse" class = "fa fa-caret-down"></span>
+                                                        <span ng-show = "sortType == 'complete' && sortReverse" class = "fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th class = "leecode-header-center hidden-xs">
+                                                    <a ng-click = "sortType = 'number'; sortReverse = !sortReverse" style = "cursor: hand; cursor: pointer">
+                                                        #
+                                                        <span ng-show = "sortType == 'number' && !sortReverse" class = "fa fa-caret-down"></span>
+                                                        <span ng-show = "sortType == 'number' && sortReverse" class = "fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+
+                                                <th class = "leecode-header-center hidden-xs">
+                                                    <a ng-click = "sortType = 'lock'; sortReverse = !sortReverse" style = "cursor: hand; cursor: pointer">
+                                                        Premium
+                                                        <span ng-show = "sortType == 'lock' && !sortReverse" class = "fa fa-caret-down"></span>
+                                                        <span ng-show = "sortType == 'lock' && sortReverse" class = "fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+
+                                                <th class = "leecode-header-left hidden-xs">
+
+                                                    <a ng-click = "sortType = 'title'; sortReverse = !sortReverse" style = "cursor: hand; cursor: pointer">
+                                                        Title
+                                                        <span ng-show = "sortType == 'title' && !sortReverse" class = "fa fa-caret-down"></span>
+                                                        <span ng-show = "sortType == 'title' && sortReverse" class = "fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th class = "leecode-header-center hidden-xs">
+                                                    <a ng-click = "sortType = 'rate_percent'; sortReverse = !sortReverse" style = "cursor: hand; cursor: pointer">
+                                                        Acceptances
+                                                        <span ng-show = "sortType == 'rate_percent' && !sortReverse" class = "fa fa-caret-down"></span>
+                                                        <span ng-show = "sortType == 'rate_percent' && sortReverse" class = "fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                                <th class = "leecode-header-left hidden-xs">
+                                                    <a ng-click = "sortType = 'difficulty'; sortReverse = !sortReverse" style = "cursor: hand; cursor: pointer">
+                                                        Difficulty
+                                                        <span ng-show = "sortType == 'difficulty' && !sortReverse" class = "fa fa-caret-down"></span>
+                                                        <span ng-show = "sortType == 'difficulty' && sortReverse" class = "fa fa-caret-up"></span>
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat = "problem in problems_list | orderBy:sortType:sortReverse | filter:search_problems">
+
+                                                <td align = "center">
+                                                    <i class = "complete fa fa-check" ng-show = "problem.complete"></i>
+                                                </td>
+                                                <td align = "center">
+                                                    {{problem.number}}
+                                                </td>
+                                                <td align = "center" class = "hidden-xs">
+                                                    <i class = "fa fa-star" ng-show = "problem.premium"></i>
+                                                </td>
+                                                <td>
+                                                    </b>
+                                                    <a href = '{{formatLink(problem.href)}}'>{{problem.title}}</a>
+                                                </td>
+                                                <td class = "hidden-xs" align = "center">
+                                                    {{formatRate(problem.rate)}}
+                                                </td>
+                                                <td class = "hidden-xs">
+                                                    {{problem.difficulty}}
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <!-- /#wrapper -->
+
+        <% include ../partials/page/footer.ejs %>
+
+        <% include ../partials/page/script.ejs %>
+
+    </body>
+</html>

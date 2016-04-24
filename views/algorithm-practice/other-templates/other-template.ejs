@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <%- include('../../partials/page/head.ejs'); %>
+    <body class = "fixed-header">
+        <%- include('../../partials/page/header.ejs'); %>
+        <%- include('../../partials/page/search.ejs'); %>
+        <div id = "wrapper">
+
+            <section class = "border-bottom-1 border-grey-300 padding-top-10 padding-bottom-10">
+                <div class = "container">
+                    <div class = "row">
+                        <div class = "col-lg-12">
+                            <ol class = "breadcrumb">
+                                <li><a href = "/">Home</a></li>
+                                <li>
+                                    <a href = "/algorithm-practice/other-problems">Other
+                                        Problems</a>
+                                </li>
+                                <li class = "active"><%= title %></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section>
+                <div class = "container">
+                    <div class = "panel panel-asphalt">
+                        <div class = "panel-heading">
+                            <h1 class = "panel-title" style = "font-size: 20px; vertical-align: middle">
+                                <b><%= title %></b></h1>
+                        </div>
+                        <div class = "panel-body">
+                            <h3 class = "panel-title"><b>Question</b></h3>
+
+                            <%- include('../other-problems/problem-'+ href + '.ejs'); %>
+                        </div>
+                    </div>
+
+                    <div class = "solution">
+                        <%- include('../other-solutions/solution-'+ href + '.ejs'); %>
+                    </div>
+                </div>
+
+
+            </section>
+
+
+        </div><%- include('../../partials/page/footer.ejs'); %>
+        <%- include('../../partials/page/script.ejs'); %>
+    </body>
+</html>
